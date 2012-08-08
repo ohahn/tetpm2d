@@ -1,0 +1,298 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BDAEE2F915D32CC500DAB878 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDAEE2F815D32CC500DAB878 /* Cocoa.framework */; };
+		BDAEE30315D32CC500DAB878 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30115D32CC500DAB878 /* InfoPlist.strings */; };
+		BDAEE30515D32CC500DAB878 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE30415D32CC500DAB878 /* main.m */; };
+		BDAEE30915D32CC500DAB878 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30715D32CC500DAB878 /* Credits.rtf */; };
+		BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE30B15D32CC500DAB878 /* AppDelegate.m */; };
+		BDAEE30F15D32CC600DAB878 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30D15D32CC600DAB878 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BDAEE2F415D32CC500DAB878 /* tetpm2d.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tetpm2d.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDAEE2F815D32CC500DAB878 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BDAEE2FB15D32CC500DAB878 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BDAEE2FC15D32CC500DAB878 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BDAEE2FD15D32CC500DAB878 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BDAEE30015D32CC500DAB878 /* tetpm2d-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tetpm2d-Info.plist"; sourceTree = "<group>"; };
+		BDAEE30215D32CC500DAB878 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BDAEE30415D32CC500DAB878 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BDAEE30615D32CC500DAB878 /* tetpm2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tetpm2d-Prefix.pch"; sourceTree = "<group>"; };
+		BDAEE30815D32CC500DAB878 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BDAEE30A15D32CC500DAB878 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BDAEE30B15D32CC500DAB878 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BDAEE30E15D32CC600DAB878 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BDAEE2F115D32CC500DAB878 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAEE2F915D32CC500DAB878 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BDAEE2E915D32CC500DAB878 = {
+			isa = PBXGroup;
+			children = (
+				BDAEE2FE15D32CC500DAB878 /* tetpm2d */,
+				BDAEE2F715D32CC500DAB878 /* Frameworks */,
+				BDAEE2F515D32CC500DAB878 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDAEE2F515D32CC500DAB878 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BDAEE2F415D32CC500DAB878 /* tetpm2d.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BDAEE2F715D32CC500DAB878 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BDAEE2F815D32CC500DAB878 /* Cocoa.framework */,
+				BDAEE2FA15D32CC500DAB878 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDAEE2FA15D32CC500DAB878 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BDAEE2FB15D32CC500DAB878 /* AppKit.framework */,
+				BDAEE2FC15D32CC500DAB878 /* CoreData.framework */,
+				BDAEE2FD15D32CC500DAB878 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BDAEE2FE15D32CC500DAB878 /* tetpm2d */ = {
+			isa = PBXGroup;
+			children = (
+				BDAEE30A15D32CC500DAB878 /* AppDelegate.h */,
+				BDAEE30B15D32CC500DAB878 /* AppDelegate.m */,
+				BDAEE30D15D32CC600DAB878 /* MainMenu.xib */,
+				BDAEE2FF15D32CC500DAB878 /* Supporting Files */,
+			);
+			path = tetpm2d;
+			sourceTree = "<group>";
+		};
+		BDAEE2FF15D32CC500DAB878 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDAEE30015D32CC500DAB878 /* tetpm2d-Info.plist */,
+				BDAEE30115D32CC500DAB878 /* InfoPlist.strings */,
+				BDAEE30415D32CC500DAB878 /* main.m */,
+				BDAEE30615D32CC500DAB878 /* tetpm2d-Prefix.pch */,
+				BDAEE30715D32CC500DAB878 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BDAEE2F315D32CC500DAB878 /* tetpm2d */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDAEE31215D32CC600DAB878 /* Build configuration list for PBXNativeTarget "tetpm2d" */;
+			buildPhases = (
+				BDAEE2F015D32CC500DAB878 /* Sources */,
+				BDAEE2F115D32CC500DAB878 /* Frameworks */,
+				BDAEE2F215D32CC500DAB878 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tetpm2d;
+			productName = tetpm2d;
+			productReference = BDAEE2F415D32CC500DAB878 /* tetpm2d.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BDAEE2EB15D32CC500DAB878 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Oliver Hahn";
+			};
+			buildConfigurationList = BDAEE2EE15D32CC500DAB878 /* Build configuration list for PBXProject "tetpm2d" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BDAEE2E915D32CC500DAB878;
+			productRefGroup = BDAEE2F515D32CC500DAB878 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BDAEE2F315D32CC500DAB878 /* tetpm2d */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BDAEE2F215D32CC500DAB878 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAEE30315D32CC500DAB878 /* InfoPlist.strings in Resources */,
+				BDAEE30915D32CC500DAB878 /* Credits.rtf in Resources */,
+				BDAEE30F15D32CC600DAB878 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BDAEE2F015D32CC500DAB878 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAEE30515D32CC500DAB878 /* main.m in Sources */,
+				BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BDAEE30115D32CC500DAB878 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDAEE30215D32CC500DAB878 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BDAEE30715D32CC500DAB878 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDAEE30815D32CC500DAB878 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BDAEE30D15D32CC600DAB878 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDAEE30E15D32CC600DAB878 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BDAEE31015D32CC600DAB878 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BDAEE31115D32CC600DAB878 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BDAEE31315D32CC600DAB878 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "tetpm2d/tetpm2d-Prefix.pch";
+				INFOPLIST_FILE = "tetpm2d/tetpm2d-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BDAEE31415D32CC600DAB878 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "tetpm2d/tetpm2d-Prefix.pch";
+				INFOPLIST_FILE = "tetpm2d/tetpm2d-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BDAEE2EE15D32CC500DAB878 /* Build configuration list for PBXProject "tetpm2d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDAEE31015D32CC600DAB878 /* Debug */,
+				BDAEE31115D32CC600DAB878 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDAEE31215D32CC600DAB878 /* Build configuration list for PBXNativeTarget "tetpm2d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDAEE31315D32CC600DAB878 /* Debug */,
+				BDAEE31415D32CC600DAB878 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BDAEE2EB15D32CC500DAB878 /* Project object */;
+}

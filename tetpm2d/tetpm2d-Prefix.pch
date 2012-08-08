@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'tetpm2d' target in the 'tetpm2d' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
