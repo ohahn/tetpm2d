@@ -14,7 +14,9 @@
 		BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE30B15D32CC500DAB878 /* AppDelegate.m */; };
 		BDAEE30F15D32CC600DAB878 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30D15D32CC600DAB878 /* MainMenu.xib */; };
 		BDAEE31615D32D5700DAB878 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDAEE31515D32D5700DAB878 /* OpenGL.framework */; };
-		BDAEE31915D32DAD00DAB878 /* MyOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */; };
+		BDAEE31915D32DAD00DAB878 /* MyOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31815D32DAD00DAB878 /* MyOpenGLView.mm */; };
+		BDAEE32115D3836B00DAB878 /* TransferFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */; };
+		BDAEE32315D3839300DAB878 /* CosmologyWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +35,11 @@
 		BDAEE30E15D32CC600DAB878 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BDAEE31515D32D5700DAB878 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		BDAEE31715D32DAD00DAB878 /* MyOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyOpenGLView.h; path = ../MyOpenGLView.h; sourceTree = "<group>"; };
-		BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyOpenGLView.m; path = ../MyOpenGLView.m; sourceTree = "<group>"; };
+		BDAEE31815D32DAD00DAB878 /* MyOpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MyOpenGLView.mm; path = ../MyOpenGLView.mm; sourceTree = "<group>"; };
+		BDAEE31E15D3833C00DAB878 /* TransferFunction.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TransferFunction.hh; sourceTree = "<group>"; };
+		BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferFunction.cpp; sourceTree = "<group>"; };
+		BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CosmologyWrapper.c; sourceTree = "<group>"; };
+		BDAEE32415D383A500DAB878 /* CosmologyWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CosmologyWrapper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +96,12 @@
 			isa = PBXGroup;
 			children = (
 				BDAEE31715D32DAD00DAB878 /* MyOpenGLView.h */,
-				BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */,
+				BDAEE31815D32DAD00DAB878 /* MyOpenGLView.mm */,
 				BDAEE30A15D32CC500DAB878 /* AppDelegate.h */,
+				BDAEE31E15D3833C00DAB878 /* TransferFunction.hh */,
+				BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */,
+				BDAEE32415D383A500DAB878 /* CosmologyWrapper.h */,
+				BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */,
 				BDAEE30B15D32CC500DAB878 /* AppDelegate.m */,
 				BDAEE30D15D32CC600DAB878 /* MainMenu.xib */,
 				BDAEE2FF15D32CC500DAB878 /* Supporting Files */,
@@ -177,7 +187,9 @@
 			files = (
 				BDAEE30515D32CC500DAB878 /* main.m in Sources */,
 				BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */,
-				BDAEE31915D32DAD00DAB878 /* MyOpenGLView.m in Sources */,
+				BDAEE31915D32DAD00DAB878 /* MyOpenGLView.mm in Sources */,
+				BDAEE32115D3836B00DAB878 /* TransferFunction.cpp in Sources */,
+				BDAEE32315D3839300DAB878 /* CosmologyWrapper.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,8 +244,14 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lgsl",
+					"-lgslcblas",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -253,7 +271,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-lgsl",
+					"-lgslcblas",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;

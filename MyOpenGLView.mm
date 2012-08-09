@@ -9,10 +9,11 @@
 #include <math.h>
 #include <OpenGL/gl.h>
 #import "MyOpenGLView.h"
+#include "CosmologyWrapper.h"
 
 static int stepcount = 0;
 
-int nres = 32;
+int nres = 128;
 
 const float boxlength = 10.0;
 
@@ -32,11 +33,13 @@ void create_particles()
         {
             unsigned id = i*nres+j;
             
-            P[id].x = i * boxlength;
-            P[id].y = j * boxlength;
+            P[id].x = (float)j * boxlength/(float)nres + boxlength*0.05 * ((double)rand()/RAND_MAX-0.5);
+            P[id].y = (float)i * boxlength/(float)nres + boxlength*0.05 * ((double)rand()/RAND_MAX-0.5);
             P[id].vx = 0.0f;
             P[id].vy = 0.0f;
             P[id].id = id;
+            
+            power_getk( (float) id );
         }
 }
 
@@ -98,72 +101,106 @@ void create_particles()
     [super dealloc];
 }
 
+float get_vertices( int itr, int i, float box, float box05, float *trvert )
+{
+    //const int numtr = 2;
+    
+    const int vert[4][2] = {{0,0},{1,0},{0,1},{1,1}};
+    const int conn[2][3] = {{0,1,2},{1,3,2}};
+    
+    float x,y;
+    x = P[i].x;
+    y = P[i].y;
+    
+    int ix,iy;
+    iy = i % nres;
+    ix = (i-iy)/nres;
+    
+    float dx[3], dy[3];
+    
+    for( int k=0; k<3; ++k )
+    {
+        int idxp = ((ix+vert[ conn[itr][k] ][0])%nres)*nres + (iy+vert[ conn[itr][k] ][1])%nres;
+        
+        dx[k] = P[idxp].x - x;
+        dy[k] = P[idxp].y - y;
+        
+        if( dx[k] < -box05 ) dx[k] += boxlength;
+        else if( dx[k] > box05 ) dx[k] -= boxlength;
+        if( dy[k] < -box05 ) dy[k] += boxlength;
+        else if( dy[k] > box05 ) dy[k] -= boxlength;
+        
+        trvert[2*k+0] = x+dx[k];
+        trvert[2*k+1] = y+dy[k];
+    }
+    
+    float area = 0.5f*(dx[1]*dy[2]-dy[1]*dx[2]);
+    return area;
+}
+
 void drawAnObject ( NSOpenGLContext *glcontext  )
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glLoadIdentity();
-    
-    const int vert[4][3] = {{0,0},{1,0},{0,1},{1,1}};
-    const int conn[2][3] = {{0,1,2},{1,3,2}};
-    
+   
     unsigned npar = nres*nres;
+    float box05 = 0.5f * boxlength;
     
-    
-    float xc[][3] = {{0.0,0.6,0.0},{-0.2,-0.3,0.0},{0.2,-0.3,0.0}};
-    float v[][3] = {{1.0,0.0,0.0},{1.0,0.0,0.0},{1.0,0.1,0.0}};
-    float xp[9][3];
-    float dt = 1.0;
-    
-    // update pos
-    /*for( int i=0; i<3; ++i ) // all vertices
-        for( int j=0; j<3; ++j ) // all coords
-            xp[i][j] = xc[i][j] + (float)stepcount * dt * v[i][j];
-    */
-    
-    
-    float phi1 = fmod( (float)stepcount *1e-2, 2.0*M_PI );
-    float phi2 = fmod( -(float)stepcount *1e-2, 2.0*M_PI );
-    float phi3 = fmod( -1.2*(float)stepcount *1e-2, 2.0*M_PI );
-
-    
-    float twopithirds = 2.0*M_PI/3.0;
-    for( int i=0; i<3; ++i ) // all vertices
-    {
-        xp[i][0] = cos( phi1 + (float)i*twopithirds);
-        xp[i][1] = sin( phi1 + (float)i*twopithirds);
-        xp[i][2] = 0.0f;
-        
-        
-        xp[3+i][0] = cos( phi2 + (float)i*twopithirds);
-        xp[3+i][1] = sin( phi2 + (float)i*twopithirds);
-        xp[3+i][2] = 0.0f;
-        
-        xp[6+i][0] = cos( phi3 + (float)i*twopithirds);
-        xp[6+i][1] = sin( phi3 + (float)i*twopithirds);
-        xp[6+i][2] = 0.0f;
-    }
-    
-    glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);     // Turn Blending On
     
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-    //glBlendFunc(GL_ONE,GL_ONE);
     
+    const int numtr = 2;
+    
+    float meanA = 0.5f*boxlength*boxlength/(nres*nres);
+    
+    float trvert[3*2];
+
+    glBegin(GL_TRIANGLES);
     {
-        //glColor4f(1.0f, 1.0f, 1.0f,0.5f);
-        glColor4f(0.5f, 0.5f, 0.5f,0.5f);
-   
-        glBegin(GL_TRIANGLES);
+        for( unsigned i=0; i<npar; ++i )
         {
-            for( int j=0; j<3; ++j )
-            for( int i=0; i<3; ++i )
-                glVertex3f( xp[3*j+i][0], xp[3*j+i][1], xp[3*j+i][2] );
+            for( int j=0; j<numtr; ++j )
+            {
+                float A;
+                A = get_vertices( j, i, boxlength, box05, trvert );
+                
+                float dens  = meanA/fabs(A);
+                float col = dens/2.0;///4.0;
+                
+                if( col > 1.0f ) col = 1.0f;
+                
+                glColor4f(col, col, col,0.9f);
+                glBlendFunc(GL_ONE,GL_ONE);
+                
+                for( int k=0; k<3; ++k )
+                {
+                    float dx,dy;
+                    dx = 2.0f * (trvert[2*k+0]/boxlength - 0.5f);
+                    dy = 2.0f * (trvert[2*k+1]/boxlength - 0.5f);
+                    
+                    glVertex3f( dx, dy, 0.0f );
+                }
+            }
         }
-        glEnd();
+        
     }
-    //glSwapAPPLE();
-    //[glcontext flushBuffer];
-    //glFlush();
+    glEnd();
+    
+
+    float dt  = 1e-3;
+    
+    P[126].vx = 1.0;
+    P[126].vy = 1.0;
+    
+    
+    
+    for( unsigned i=0; i<npar; ++i )
+    {
+        P[i].x += dt * P[i].vx;
+        P[i].y += dt * P[i].vy;
+    }
+    
+
     glFinish();
 }
 
