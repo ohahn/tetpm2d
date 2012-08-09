@@ -13,6 +13,8 @@
 		BDAEE30915D32CC500DAB878 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30715D32CC500DAB878 /* Credits.rtf */; };
 		BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE30B15D32CC500DAB878 /* AppDelegate.m */; };
 		BDAEE30F15D32CC600DAB878 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAEE30D15D32CC600DAB878 /* MainMenu.xib */; };
+		BDAEE31615D32D5700DAB878 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDAEE31515D32D5700DAB878 /* OpenGL.framework */; };
+		BDAEE31915D32DAD00DAB878 /* MyOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,9 @@
 		BDAEE30A15D32CC500DAB878 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BDAEE30B15D32CC500DAB878 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		BDAEE30E15D32CC600DAB878 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BDAEE31515D32D5700DAB878 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		BDAEE31715D32DAD00DAB878 /* MyOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyOpenGLView.h; path = ../MyOpenGLView.h; sourceTree = "<group>"; };
+		BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyOpenGLView.m; path = ../MyOpenGLView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDAEE2F915D32CC500DAB878 /* Cocoa.framework in Frameworks */,
+				BDAEE31615D32D5700DAB878 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +78,7 @@
 		BDAEE2FA15D32CC500DAB878 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BDAEE31515D32D5700DAB878 /* OpenGL.framework */,
 				BDAEE2FB15D32CC500DAB878 /* AppKit.framework */,
 				BDAEE2FC15D32CC500DAB878 /* CoreData.framework */,
 				BDAEE2FD15D32CC500DAB878 /* Foundation.framework */,
@@ -82,6 +89,8 @@
 		BDAEE2FE15D32CC500DAB878 /* tetpm2d */ = {
 			isa = PBXGroup;
 			children = (
+				BDAEE31715D32DAD00DAB878 /* MyOpenGLView.h */,
+				BDAEE31815D32DAD00DAB878 /* MyOpenGLView.m */,
 				BDAEE30A15D32CC500DAB878 /* AppDelegate.h */,
 				BDAEE30B15D32CC500DAB878 /* AppDelegate.m */,
 				BDAEE30D15D32CC600DAB878 /* MainMenu.xib */,
@@ -168,6 +177,7 @@
 			files = (
 				BDAEE30515D32CC500DAB878 /* main.m in Sources */,
 				BDAEE30C15D32CC500DAB878 /* AppDelegate.m in Sources */,
+				BDAEE31915D32DAD00DAB878 /* MyOpenGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
