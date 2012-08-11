@@ -12,10 +12,14 @@
 {
     
     IBOutlet id timedir_button;
+    IBOutlet NSSlider *numpart_slider;
     
 @public
     IBOutlet NSButton *run_button;
     IBOutlet NSTextField *zcurrlabel;
+    IBOutlet NSTextField *numpart;
+    
+    
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -23,5 +27,7 @@
 - (IBAction)toggle_run:(id)sender;
 - (IBAction)toggle_timedir:(id)sender;
 - (IBAction)restart_run:(id)sender;
+- (IBAction)change_numpart:(id)sender;
+- (IBAction)toggle_rendermode:(id)sender;
 
 @end

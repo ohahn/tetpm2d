@@ -11,6 +11,9 @@
 extern int is_running;
 extern int timedir;
 extern int restart_sim;
+extern int new_nres;
+extern int changed_particle_number;
+extern int render_mode;
 
 @implementation AppDelegate
 
@@ -37,6 +40,20 @@ extern int restart_sim;
 - (IBAction)restart_run:(id)sender
 {
     restart_sim = 1;
+}
+
+- (IBAction)toggle_rendermode:(id)sender
+{
+    render_mode = !render_mode;
+}
+
+- (IBAction)change_numpart:(id)sender
+{
+    NSSlider *slider = (NSSlider *)sender;
+    new_nres = (int)(pow(2,slider.doubleValue)+0.5);
+    
+    [numpart setStringValue:[NSString stringWithFormat:@"%d",new_nres ]];
+    changed_particle_number = 1;
 }
 
 @end

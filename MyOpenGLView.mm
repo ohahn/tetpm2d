@@ -20,8 +20,11 @@ static int stepcount = 0;
 int is_running = 0;
 int timedir = 0;
 int restart_sim = 0;
+int changed_particle_number = 0;
+int render_mode = 0;
 
 int nres = 128;
+int new_nres = nres;
 
 float boxlength = 10.0;
 float aexp;
@@ -321,7 +324,7 @@ float get_vertices( int itr, int i, float box, float box05, float *trvert )
 
 #define B2S(x) (2.0f*((x)/boxlength-0.5f))
 
-void drawAnObject( void )
+void drawAnObject( int rendermode )
 {
     
     
@@ -343,72 +346,81 @@ void drawAnObject( void )
     
     float trvert[3*2];
 
-    glBegin(GL_TRIANGLES);
+    if( rendermode == 0 )
     {
-        for( unsigned i=0; i<npar; ++i )
+    
+        glBegin(GL_TRIANGLES);
         {
-            
-#if 1
-            for( int j=0; j<numtr; ++j )
+            for( unsigned i=0; i<npar; ++i )
             {
-                float A;
-                A = get_vertices( j, i, boxlength, box05, trvert );
-                
-                float dens  = meanA/fabs(A);
-                float col = dens/8.0;///4.0;
-                
-                if( col > 1.0f ) col = 1.0f;
-                
-                glColor4f(col, col, col,0.1f);
-                glBlendFunc(GL_ONE,GL_ONE);
-                
-                if( A< 0)
-                for( int k=0; k<3; ++k )
+                for( int j=0; j<numtr; ++j )
                 {
-                    float dx,dy;
-                    dx = B2S(trvert[2*k+0]);
-                    dy = B2S(trvert[2*k+1]);
+                    float A;
+                    A = get_vertices( j, i, boxlength, box05, trvert );
                     
-                    glVertex3f( dx, dy, 0.0f );
-                }
-                else
-                {
-                    float dx,dy;
+                    float dens  = meanA/fabs(A);
+                    float col = dens/8.0;///4.0;
                     
+                    if( col > 1.0f ) col = 1.0f;
                     
-                    dx = B2S(trvert[2*2+0]);
-                    dy = B2S(trvert[2*2+1]);
+                    glColor4f(col, col, col,0.1f);
+                    glBlendFunc(GL_ONE,GL_ONE);
                     
-                    glVertex3f( dx, dy, 0.0f );
-                    
-                    dx = B2S(trvert[2*1+0]);
-                    dy = B2S(trvert[2*1+1]);
-                    
-                    glVertex3f( dx, dy, 0.0f );
-                    
-                    dx = B2S(trvert[2*0+0]);
-                    dy = B2S(trvert[2*0+1]);
-                    
-                    glVertex3f( dx, dy, 0.0f );
+                    if( A< 0)
+                    for( int k=0; k<3; ++k )
+                    {
+                        float dx,dy;
+                        dx = B2S(trvert[2*k+0]);
+                        dy = B2S(trvert[2*k+1]);
+                        
+                        glVertex3f( dx, dy, 0.0f );
+                    }
+                    else
+                    {
+                        float dx,dy;
+                        
+                        
+                        dx = B2S(trvert[2*2+0]);
+                        dy = B2S(trvert[2*2+1]);
+                        
+                        glVertex3f( dx, dy, 0.0f );
+                        
+                        dx = B2S(trvert[2*1+0]);
+                        dy = B2S(trvert[2*1+1]);
+                        
+                        glVertex3f( dx, dy, 0.0f );
+                        
+                        dx = B2S(trvert[2*0+0]);
+                        dy = B2S(trvert[2*0+1]);
+                        
+                        glVertex3f( dx, dy, 0.0f );
+                    }
                 }
             }
-#else
-     
-        
-            glColor4f(0.8,0.8,0.8,1.0);
-            glBlendFunc(GL_ONE,GL_ONE);
-            
-            glVertex3f( B2S(P[i].x)-0.01, B2S(P[i].y), 0.0f );
-            glVertex3f( B2S(P[i].x)+0.01, B2S(P[i].y), 0.0f );
-            glVertex3f( B2S(P[i].x), B2S(P[i].y)+0.02, 0.0f );
-        
-#endif
-        }
 
+            
+        }
+        glEnd();
         
-    }
-    glEnd();
+    }else{
     
+        glBegin(GL_TRIANGLES);
+        {
+            for( unsigned i=0; i<npar; ++i )
+            {
+                glColor4f(0.8,0.8,0.8,0.2);
+                glBlendFunc(GL_ONE,GL_ONE);
+                
+                glVertex3f( B2S(P[i].x)-0.002, B2S(P[i].y), 0.0f );
+                glVertex3f( B2S(P[i].x)+0.002, B2S(P[i].y), 0.0f );
+                glVertex3f( B2S(P[i].x), B2S(P[i].y)+0.004, 0.0f );
+                
+            }
+            
+            
+        }
+        glEnd();
+    }
     
     /*float dt  = 1e-3;
     
@@ -570,11 +582,24 @@ void drawAnObject( void )
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    drawAnObject( );
+    drawAnObject( render_mode );
     stepcount++;
     
     if( is_running )
     {
+        
+        if( changed_particle_number )
+        {
+            free(P);
+            nres = new_nres;
+            P = (particle *)malloc( sizeof(particle) *nres*nres );
+            fprintf(stderr, "changed numpart to %d\n",nres);
+            aexp = astart;
+            init_particles();
+            pgsolve->reset_force();
+            changed_particle_number = 0;
+        }
+        
         if( restart_sim )
         {
             aexp = astart;

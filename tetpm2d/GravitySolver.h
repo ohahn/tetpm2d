@@ -104,6 +104,11 @@ public:
     void kick_particles( float a, float da );
     void drift_particles( float a, float da );
     
+    void reset_force( void )
+    {
+        aforce = 0.0f;
+    }
+    
     float step( float a, float da );
 };
 
