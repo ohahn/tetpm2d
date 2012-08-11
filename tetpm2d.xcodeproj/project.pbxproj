@@ -17,6 +17,10 @@
 		BDAEE31915D32DAD00DAB878 /* MyOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31815D32DAD00DAB878 /* MyOpenGLView.mm */; };
 		BDAEE32115D3836B00DAB878 /* TransferFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */; };
 		BDAEE32315D3839300DAB878 /* CosmologyWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */; };
+		BDAEE32B15D389C400DAB878 /* GravitySolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BDAEE32915D389C400DAB878 /* GravitySolver.cpp */; };
+		BDD67CDC15D3CBF500A16485 /* postproc_f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = BDD67CDA15D3CBF500A16485 /* postproc_f.glsl */; };
+		BDD67CDD15D3CBF500A16485 /* postproc_v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = BDD67CDB15D3CBF500A16485 /* postproc_v.glsl */; };
+		BDD67CDF15D3CD0100A16485 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD67CDE15D3CD0100A16485 /* GLUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,12 @@
 		BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransferFunction.cpp; sourceTree = "<group>"; };
 		BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CosmologyWrapper.c; sourceTree = "<group>"; };
 		BDAEE32415D383A500DAB878 /* CosmologyWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CosmologyWrapper.h; sourceTree = "<group>"; };
+		BDAEE32915D389C400DAB878 /* GravitySolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GravitySolver.cpp; sourceTree = "<group>"; };
+		BDAEE32A15D389C400DAB878 /* GravitySolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GravitySolver.h; sourceTree = "<group>"; };
+		BDD67CD915D3A0D600A16485 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		BDD67CDA15D3CBF500A16485 /* postproc_f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = postproc_f.glsl; sourceTree = "<group>"; };
+		BDD67CDB15D3CBF500A16485 /* postproc_v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = postproc_v.glsl; sourceTree = "<group>"; };
+		BDD67CDE15D3CD0100A16485 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../../System/Library/Frameworks/GLUT.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +59,7 @@
 			files = (
 				BDAEE2F915D32CC500DAB878 /* Cocoa.framework in Frameworks */,
 				BDAEE31615D32D5700DAB878 /* OpenGL.framework in Frameworks */,
+				BDD67CDF15D3CD0100A16485 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +95,7 @@
 		BDAEE2FA15D32CC500DAB878 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BDD67CDE15D3CD0100A16485 /* GLUT.framework */,
 				BDAEE31515D32D5700DAB878 /* OpenGL.framework */,
 				BDAEE2FB15D32CC500DAB878 /* AppKit.framework */,
 				BDAEE2FC15D32CC500DAB878 /* CoreData.framework */,
@@ -95,6 +107,8 @@
 		BDAEE2FE15D32CC500DAB878 /* tetpm2d */ = {
 			isa = PBXGroup;
 			children = (
+				BDD67CDA15D3CBF500A16485 /* postproc_f.glsl */,
+				BDD67CDB15D3CBF500A16485 /* postproc_v.glsl */,
 				BDAEE31715D32DAD00DAB878 /* MyOpenGLView.h */,
 				BDAEE31815D32DAD00DAB878 /* MyOpenGLView.mm */,
 				BDAEE30A15D32CC500DAB878 /* AppDelegate.h */,
@@ -102,6 +116,9 @@
 				BDAEE32215D3839300DAB878 /* CosmologyWrapper.c */,
 				BDAEE32415D383A500DAB878 /* CosmologyWrapper.h */,
 				BDAEE31F15D3836B00DAB878 /* TransferFunction.cpp */,
+				BDAEE32915D389C400DAB878 /* GravitySolver.cpp */,
+				BDAEE32A15D389C400DAB878 /* GravitySolver.h */,
+				BDD67CD915D3A0D600A16485 /* Global.h */,
 				BDAEE30B15D32CC500DAB878 /* AppDelegate.m */,
 				BDAEE30D15D32CC600DAB878 /* MainMenu.xib */,
 				BDAEE2FF15D32CC500DAB878 /* Supporting Files */,
@@ -175,6 +192,8 @@
 				BDAEE30315D32CC500DAB878 /* InfoPlist.strings in Resources */,
 				BDAEE30915D32CC500DAB878 /* Credits.rtf in Resources */,
 				BDAEE30F15D32CC600DAB878 /* MainMenu.xib in Resources */,
+				BDD67CDC15D3CBF500A16485 /* postproc_f.glsl in Resources */,
+				BDD67CDD15D3CBF500A16485 /* postproc_v.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +209,7 @@
 				BDAEE31915D32DAD00DAB878 /* MyOpenGLView.mm in Sources */,
 				BDAEE32115D3836B00DAB878 /* TransferFunction.cpp in Sources */,
 				BDAEE32315D3839300DAB878 /* CosmologyWrapper.c in Sources */,
+				BDAEE32B15D389C400DAB878 /* GravitySolver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +251,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_OPENMP_SUPPORT = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -240,6 +261,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -251,6 +273,8 @@
 				OTHER_LDFLAGS = (
 					"-lgsl",
 					"-lgslcblas",
+					"-lfftw3f",
+					"-lfftw3f_threads",
 				);
 				SDKROOT = macosx;
 			};
@@ -265,8 +289,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_OPENMP_SUPPORT = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -277,6 +303,8 @@
 				OTHER_LDFLAGS = (
 					"-lgsl",
 					"-lgslcblas",
+					"-lfftw3f",
+					"-lfftw3f_threads",
 				);
 				SDKROOT = macosx;
 			};
@@ -325,6 +353,7 @@
 				BDAEE31415D32CC600DAB878 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
