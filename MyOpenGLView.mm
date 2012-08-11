@@ -12,11 +12,16 @@
 #include <GLUT/glut.h>
 
 #import "MyOpenGLView.h"
+#import "AppDelegate.h"
 #include "CosmologyWrapper.h"
 
 static int stepcount = 0;
 
-int nres = 32;
+int is_running = 0;
+int timedir = 0;
+int restart_sim = 0;
+
+int nres = 128;
 
 float boxlength = 10.0;
 float aexp;
@@ -24,13 +29,60 @@ float astart = 1.0/101.0;
 
 particle *P;
 
+void ripple_wave( void )
+{
+    
+    double epsilon_a = 0.2;//1.0;//0.2;
+	double kp = 1.0;
+	double ka = 2.0;
+    
+    
+    double zcross = 7.7-1.0; // expansion factor of 7.7 after shell crossing as in Melott et al. (1997)
+    double across = 1.0/(1.0+zcross);
+    double waveamp = 1.0/across;// * pow((double)nres,1.5);
+    
+    double vfact = 100.0 * pow(astart,-1.5) *astart*astart;// * sqrt(astart);
+    
+    double Aini = waveamp * astart * boxlength;
+    double twopi = 2.0*M_PI;
+    
+    for( int i=0; i<nres; ++i )
+        for( int j=0; j<nres; ++j )
+        {
+            unsigned id = i*nres+j;
+            P[id].x = (float)j * boxlength/(float)nres;
+            P[id].y = (float)i * boxlength/(float)nres;
+            
+            P[id].vx = 0.0f;
+            P[id].vy = 0.0f;
+            
+            P[id].acc[0] = 0.0f;
+            P[id].acc[1] = 0.0f;
+            P[id].id = id;
+         
+            
+            //... perturbation
+            float
+            qx = ((float)i+0.5)/nres,
+            qy = ((float)j+0.5)/nres;
+            
+            double vy = Aini/(twopi*kp)*sin(twopi*kp*qx + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qy));
+            double vx = -Aini/(twopi*ka)*epsilon_a*sin(twopi*kp*qx + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qy))*sin(twopi*ka*qy);
+            P[id].x += vx;
+            P[id].y += vy;
+            P[id].vx += vfact * vx;
+            P[id].vy += vfact * vy;
+            
+        }
+}
+
 void plane_wave( void )
 {
     double zcross = 7.7-1.0; // expansion factor of 7.7 after shell crossing as in Melott et al. (1997)
     double across = 1.0/(1.0+zcross);
     double waveamp = 1.0/across;// * pow((double)nres,1.5);
     
-    double vfact = 100.0 * pow(astart,-1.5) *astart*sqrt(astart);// * sqrt(astart);
+    double vfact = 100.0 * pow(astart,-1.5) *astart*astart;// * sqrt(astart);
     
     for( int i=0; i<nres; ++i )
         for( int j=0; j<nres; ++j )
@@ -54,10 +106,10 @@ void plane_wave( void )
 }
 
 
-void create_particles()
+void init_particles()
 {
-    plane_wave();
-    
+    //plane_wave();
+    ripple_wave();
 }
 
 /**
@@ -205,11 +257,11 @@ GLuint create_shader(const char* filename, GLenum type)
     
     aexp = 1.0f/101.0f;
     
-    create_particles();
+    init_particles();
     
     pgsolve = new gravity_solver( nres );
     
-    
+    is_running = 0;
     
 }
 
@@ -516,10 +568,33 @@ void drawAnObject( void )
     
     //...
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
     drawAnObject( );
     stepcount++;
-    aexp = pgsolve->step( aexp, 0.001 );
     
+    if( is_running )
+    {
+        if( restart_sim )
+        {
+            aexp = astart;
+            init_particles();
+            restart_sim = 0;
+        }
+        
+        aexp = pgsolve->step( aexp, 0.001 );
+        
+        AppDelegate *app = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+        NSTextField *myLabel = app->zcurrlabel;
+        [myLabel setStringValue:[NSString stringWithFormat:@"%.3f",1.0f/aexp-1.0f ]];
+        
+        if( aexp <= astart && timedir == 1 )
+        {
+            NSButton *run_button = app->run_button;
+            [run_button setNextState];
+            is_running = 0;
+        }
+    }
     //...
     
     //... show texture

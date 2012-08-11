@@ -13,6 +13,8 @@
 
 #include "Global.h"
 
+extern int timedir;
+
 gravity_solver::gravity_solver( unsigned n )
 : n_( n )
 {
@@ -193,6 +195,9 @@ void gravity_solver::kick_particles( float a, float da )
 
 float gravity_solver::step( float a, float da )
 {
+    if( timedir )
+        da = -da;
+    
     if( a > aforce )
     {
         cic_deploy(0.25f);

@@ -20,5 +20,7 @@ extern particle *P;
 extern int nres;
 extern float boxlength;
 
+extern int is_running;
+
 
 #endif

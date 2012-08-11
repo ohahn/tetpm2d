@@ -37,5 +37,8 @@
 
 - (void) drawRect: (NSRect) bounds;
 - (void) drawAnObject : (NSOpenGLContext *)glcontext;
+- (IBAction)toggle_run:(id)sender;
+
+
 
 @end
