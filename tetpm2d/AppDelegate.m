@@ -13,7 +13,10 @@ extern int timedir;
 extern int restart_sim;
 extern int new_nres;
 extern int changed_particle_number;
+extern int new_PMres;
+extern int changed_PMres;
 extern int render_mode;
+extern int mass_deploy_mode;
 
 @implementation AppDelegate
 
@@ -54,6 +57,35 @@ extern int render_mode;
     
     [numpart setStringValue:[NSString stringWithFormat:@"%d",new_nres ]];
     changed_particle_number = 1;
+}
+
+- (IBAction)change_numcell:(id)sender
+{
+    NSSlider *slider = (NSSlider *)sender;
+    new_PMres = (int)(pow(2,slider.doubleValue)+0.5);
+    
+    [numcell setStringValue:[NSString stringWithFormat:@"%d",new_PMres ]];
+    changed_PMres = 1;
+}
+
+- (IBAction)toggle_massdeploymode:(id)sender
+{
+    switch ([[sender selectedCell] tag]) {
+        case 0:
+            mass_deploy_mode = 0;
+            break;
+            
+        case 1:
+            mass_deploy_mode = 1;
+            break;
+            
+        case 2:
+            mass_deploy_mode = 2;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

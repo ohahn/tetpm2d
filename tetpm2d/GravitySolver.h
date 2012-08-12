@@ -94,12 +94,17 @@ protected:
     }
     
     
+protected:
+    
+    void deploy_tet3pm( void );
+    void deploy_stdpm( void );
+    
 public:
     
     explicit gravity_solver( unsigned nres );
     ~gravity_solver();
 
-    void cic_deploy( float pweight );
+    void cic_deploy( int mass_deploy_method );
     void compute_force( float a );
     void kick_particles( float a, float da );
     void drift_particles( float a, float da );
@@ -109,7 +114,28 @@ public:
         aforce = 0.0f;
     }
     
-    float step( float a, float da );
+    void change_PM_resolution( int newres )
+    {
+        delete[] data;
+        delete[] force;
+        
+        n_ = newres;
+        
+        data = new fftwf_real[ n_ * (n_+2) ];
+        force = new fftwf_real[ n_ * (n_+2) ];
+        cdata = reinterpret_cast<fftwf_complex*>(data);
+        
+        fftwf_destroy_plan(plan);
+        fftwf_destroy_plan(iplan);
+        
+        
+        plan  = fftwf_plan_dft_r2c_2d( n_, n_, data, cdata, FFTW_MEASURE ),
+        iplan = fftwf_plan_dft_c2r_2d( n_, n_, cdata, data, FFTW_MEASURE );
+        
+        aforce = 0.0;
+    }
+    
+    float step( float a, float da, int mass_deploy_mode );
 };
 
 

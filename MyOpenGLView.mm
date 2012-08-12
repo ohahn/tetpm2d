@@ -22,9 +22,14 @@ int timedir = 0;
 int restart_sim = 0;
 int changed_particle_number = 0;
 int render_mode = 0;
+int mass_deploy_mode = 0;
 
 int nres = 128;
 int new_nres = nres;
+
+int PMres = 128;
+int new_PMres = PMres;
+int changed_PMres = 0;
 
 float boxlength = 10.0;
 float aexp;
@@ -262,7 +267,7 @@ GLuint create_shader(const char* filename, GLenum type)
     
     init_particles();
     
-    pgsolve = new gravity_solver( nres );
+    pgsolve = new gravity_solver( PMres );
     
     is_running = 0;
     
@@ -606,6 +611,13 @@ void drawAnObject( int rendermode )
             changed_particle_number = 0;
         }
         
+        if( changed_PMres )
+        {
+            pgsolve->change_PM_resolution( new_PMres );
+            PMres = new_PMres;
+            changed_PMres = 0;
+        }
+        
         if( restart_sim )
         {
             aexp = astart;
@@ -613,7 +625,7 @@ void drawAnObject( int rendermode )
             restart_sim = 0;
         }
         
-        aexp = pgsolve->step( aexp, 0.001 );
+        aexp = pgsolve->step( aexp, 0.001, mass_deploy_mode );
         
         AppDelegate *app = (AppDelegate *)[[NSApplication sharedApplication] delegate];
         NSTextField *myLabel = app->zcurrlabel;

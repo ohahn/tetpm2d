@@ -13,11 +13,15 @@
     
     IBOutlet id timedir_button;
     IBOutlet NSSlider *numpart_slider;
+    IBOutlet NSSlider *numcell_slider;
+    
     
 @public
     IBOutlet NSButton *run_button;
     IBOutlet NSTextField *zcurrlabel;
     IBOutlet NSTextField *numpart;
+    IBOutlet NSTextField *numcell;
+    
     
     
 }
@@ -28,6 +32,8 @@
 - (IBAction)toggle_timedir:(id)sender;
 - (IBAction)restart_run:(id)sender;
 - (IBAction)change_numpart:(id)sender;
+- (IBAction)change_numcell:(id)sender;
 - (IBAction)toggle_rendermode:(id)sender;
+- (IBAction)toggle_massdeploymode:(id)sender;
 
 @end

@@ -55,15 +55,44 @@ gravity_solver::~gravity_solver()
     delete[] force;
 }
 
-void gravity_solver::cic_deploy( float pweight )
+void gravity_solver::deploy_stdpm()
 {
     unsigned nn2p = n_*(n_+2), nn2 = n_*n_, np=n_+2;
     
-    for( unsigned i=0; i<nn2p; ++i )
-        data[i] = -1.0f;
+    unsigned nres2 = nres*nres;
     
-#define TETPM
-#ifdef TETPM
+    float gfac = (float)n_ / box_;
+    int             slab_x, slab_y;
+	int             slab_xx, slab_yy;
+    float dx,dy;
+    
+    float pweight = (float)n_*(float)n_/(nres*nres);
+    
+    for( unsigned i=0; i<nres2; ++i )
+    {
+        slab_x = gfac * P[i].x;
+        dx = gfac * P[i].x - slab_x;
+        slab_x = (slab_x+n_)%n_;
+        slab_xx = (slab_x+1+n_)%n_;
+        
+        
+        slab_y = gfac * P[i].y;
+        dy = gfac * P[i].y - slab_y;
+        slab_y = (slab_y+n_)%n_;
+        slab_yy = (slab_y+1+n_)%n_;
+        
+        data[slab_x * np + slab_y ]   += pweight * (1.0f - dx) * (1.0f - dy);
+        data[slab_xx * np + slab_y ]  += pweight * dx * (1.0f - dy);
+        data[slab_x * np + slab_yy ]  += pweight * (1.0f - dx) * dy;
+        data[slab_xx * np + slab_yy ] += pweight * dx * dy;
+        
+        
+    }
+}
+
+void gravity_solver::deploy_tet3pm()
+{
+    unsigned nn2p = n_*(n_+2), nn2 = n_*n_, np=n_+2;
     unsigned nres2 = nres*nres;
     const int vert[4][2] = {{0,0},{1,0},{0,1},{1,1}};
     const int conn[2][3] = {{0,1,2},{1,3,2}};
@@ -73,7 +102,7 @@ void gravity_solver::cic_deploy( float pweight )
 	int             slab_xx, slab_yy;
     float dx,dy;
     
-    pweight *= (float)n_*(float)n_/(nres*nres);//(float)nres*(float)nres/(n_*n_);
+    float pweight = 1.0f/6.0f * (float)n_*(float)n_/(nres*nres);//(float)nres*(float)nres/(n_*n_);
     
     for( unsigned i=0; i<nres2; ++i )
     {
@@ -88,7 +117,7 @@ void gravity_solver::cic_deploy( float pweight )
         for (unsigned j = 0; j < 2; ++j) {
             static float    xc[2*3];
             static int      vertids[3];
-
+            
             for (int k = 0; k < 3; ++k)
                 vertids[k] = square_vertices[conn[j][k]];
             
@@ -114,42 +143,23 @@ void gravity_solver::cic_deploy( float pweight )
             }
         }
     }
-    
-#else
-   
-    unsigned nres2 = nres*nres;
-    
-    float gfac = (float)n_ / box_;
-    int             slab_x, slab_y;
-	int             slab_xx, slab_yy;
-    float dx,dy;
-    
-    pweight *= 6.0f * (float)n_*(float)n_/(nres*nres);
-    
-    for( unsigned i=0; i<nres2; ++i )
-    {
-        slab_x = gfac * P[i].x;
-        dx = gfac * P[i].x - slab_x;
-        slab_x = (slab_x+n_)%n_;
-        slab_xx = (slab_x+1+n_)%n_;
-        
-        
-        slab_y = gfac * P[i].y;
-        dy = gfac * P[i].y - slab_y;
-        slab_y = (slab_y+n_)%n_;
-        slab_yy = (slab_y+1+n_)%n_;
-        
-        data[slab_x * np + slab_y ]   += pweight * (1.0f - dx) * (1.0f - dy);
-        data[slab_xx * np + slab_y ]  += pweight * dx * (1.0f - dy);
-        data[slab_x * np + slab_yy ]  += pweight * (1.0f - dx) * dy;
-        data[slab_xx * np + slab_yy ] += pweight * dx * dy;
+}
 
-
-    }
+void gravity_solver::cic_deploy( int mass_deploy_mode )
+{
+    unsigned nn2p = n_*(n_+2);
     
-#endif
+    for( unsigned i=0; i<nn2p; ++i )
+        data[i] = -1.0f;
     
-    
+    switch( mass_deploy_mode ) {
+        case 0: deploy_stdpm();
+            break;
+        case 1: deploy_tet3pm();
+            break;
+        case 2: deploy_tet3pm();
+            break;
+    }    
 }
 
 void gravity_solver::drift_particles( float a, float da )
@@ -193,7 +203,7 @@ void gravity_solver::kick_particles( float a, float da )
     
 }
 
-float gravity_solver::step( float a, float da )
+float gravity_solver::step( float a, float da, int mass_deploy_mode )
 {
     if( timedir )
         da = -da;
@@ -207,7 +217,7 @@ float gravity_solver::step( float a, float da )
     
     drift_particles( a, da );
     
-    cic_deploy(1.0f/6.0f);
+    cic_deploy( mass_deploy_mode );
     compute_force( a+da ); aforce = a+da;
     
     kick_particles( a + 0.5f*da, 0.5f * da );
