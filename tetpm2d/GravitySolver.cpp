@@ -62,7 +62,7 @@ void gravity_solver::cic_deploy( float pweight )
     for( unsigned i=0; i<nn2p; ++i )
         data[i] = -1.0f;
     
-    
+#define TETPM
 #ifdef TETPM
     unsigned nres2 = nres*nres;
     const int vert[4][2] = {{0,0},{1,0},{0,1},{1,1}};
@@ -73,7 +73,7 @@ void gravity_solver::cic_deploy( float pweight )
 	int             slab_xx, slab_yy;
     float dx,dy;
     
-    pweight *= (float)nres*(float)nres/(n_*n_);
+    pweight *= (float)n_*(float)n_/(nres*nres);//(float)nres*(float)nres/(n_*n_);
     
     for( unsigned i=0; i<nres2; ++i )
     {
@@ -124,7 +124,7 @@ void gravity_solver::cic_deploy( float pweight )
 	int             slab_xx, slab_yy;
     float dx,dy;
     
-    pweight *= 4.0f * (float)nres*(float)nres/(n_*n_);
+    pweight *= 6.0f * (float)n_*(float)n_/(nres*nres);
     
     for( unsigned i=0; i<nres2; ++i )
     {
@@ -207,13 +207,13 @@ float gravity_solver::step( float a, float da )
     
     drift_particles( a, da );
     
-    cic_deploy(0.25f);
+    cic_deploy(1.0f/6.0f);
     compute_force( a+da ); aforce = a+da;
     
     kick_particles( a + 0.5f*da, 0.5f * da );
 
     
-    fprintf(stderr,"step %05d : a=%f,  da=%f complete.\n", ++stepno,a+da,da);
+    //fprintf(stderr,"step %05d : a=%f,  da=%f complete.\n", ++stepno,a+da,da);
     
     return a+da;
 }

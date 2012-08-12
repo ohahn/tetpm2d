@@ -553,7 +553,7 @@ void drawAnObject( int rendermode )
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         
         glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);     // Turn Blending On
+        //glEnable(GL_BLEND);     // Turn Blending On
 #endif
         
     }
@@ -565,23 +565,29 @@ void drawAnObject( int rendermode )
     /*GLuint screen_width = contextSize.width;
     GLuint screen_height = contextSize.height;
     
+
     glViewport(0, 0, screen_width*msaa, screen_height*msaa);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    //gluPerspective(60.0f, (float)(screen_width)/(screen_height), 0.01f, 10000.0f);
+    gluPerspective(60.0f, (float)(screen_width)/(screen_height), 0.01f, 10000.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    */
+    
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    
 
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo);
+    glDisable(GL_DEPTH_TEST);*/
+    
     
     // render here!!!!
     
     //...
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+    //glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
     drawAnObject( render_mode );
     stepcount++;
     
@@ -630,7 +636,12 @@ void drawAnObject( int rendermode )
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
+    glDisable(GL_DEPTH_TEST);
+    
     glUseProgram(program_postproc);
+    
+    glDisable(GL_DEPTH_TEST);
+    
 
     glBindTexture(GL_TEXTURE_2D, img);
     glBegin(GL_QUADS);
@@ -641,9 +652,16 @@ void drawAnObject( int rendermode )
     glEnd();
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0); // unbind
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
+    
+    
     glBindTexture(GL_TEXTURE_2D, img);
     glGenerateMipmapEXT(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glDisable(GL_TEXTURE_2D);
+    
     glViewport(0, 0, screen_width, screen_height);
 #endif
     
