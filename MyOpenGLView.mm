@@ -58,8 +58,8 @@ void ripple_wave( void )
         for( int j=0; j<nres; ++j )
         {
             unsigned id = i*nres+j;
-            P[id].x = (float)j * boxlength/(float)nres;
-            P[id].y = (float)i * boxlength/(float)nres;
+            P[id].x = (float)i * boxlength/(float)nres;
+            P[id].y = (float)j * boxlength/(float)nres;
             
             P[id].vx = 0.0f;
             P[id].vy = 0.0f;
@@ -74,8 +74,8 @@ void ripple_wave( void )
             qx = ((float)i+0.5)/nres,
             qy = ((float)j+0.5)/nres;
             
-            double vy = Aini/(twopi*kp)*sin(twopi*kp*qx + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qy));
-            double vx = -Aini/(twopi*ka)*epsilon_a*sin(twopi*kp*qx + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qy))*sin(twopi*ka*qy);
+            double vy = Aini/(twopi*kp)*sin(twopi*kp*qy + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qx));
+            double vx = -Aini/(twopi*ka)*epsilon_a*sin(twopi*kp*qy + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qx))*sin(twopi*ka*qx);
             P[id].x += vx;
             P[id].y += vy;
             P[id].vx += vfact * vx;

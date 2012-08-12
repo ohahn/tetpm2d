@@ -88,9 +88,53 @@ protected:
         
         for( i=0; i<3; ++i )
         {
-            xpp[2*i+0] = fmodf( ( fac_centr * xc[0] + fac_point * xp[3*i+0] ) + x0[0] + box_, box_ );
-            xpp[2*i+1] = fmodf( ( fac_centr * xc[1] + fac_point * xp[3*i+1] ) + x0[1] + box_, box_ );
+            xpp[2*i+0] = fmodf( ( fac_centr * xc[0] + fac_point * xp[2*i+0] ) + x0[0] + box_, box_ );
+            xpp[2*i+1] = fmodf( ( fac_centr * xc[1] + fac_point * xp[2*i+1] ) + x0[1] + box_, box_ );
         }
+    }
+    
+    inline void
+    get_triangle_centroid( const int *vertids, float *xpp )
+    {
+        const float     x0[2] = {P[vertids[0]].x, P[vertids[0]].y};
+        static float xc[2];
+        
+        int             i;
+        
+        static float xp[3*2];
+        
+        xc[0] = xc[1] = 0.0f;
+        xp[0] = xp[1] = 0.0f;
+        
+        for (i = 1; i < 3; ++i) {
+            float           dx[] = {P[vertids[i]].x - x0[0], P[vertids[i]].y - x0[1]};
+            
+            
+            if (dx[0] < -box05_)
+                dx[0] += box_;
+            else if (dx[0] > box05_)
+                dx[0] -= box_;
+            if (dx[1] < -box05_)
+                dx[1] += box_;
+            else if (dx[1] > box05_)
+                dx[1] -= box_;
+            
+            xc[0] += dx[0];
+            xc[1] += dx[1];
+            
+            xp[2*i+0] = dx[0];
+            xp[2*i+1] = dx[1];
+            
+        }
+        
+        xc[0] *= 0.3333333333f;
+        xc[1] *= 0.3333333333f;
+        
+        // xc and xp is relative to x0
+        //xxp0 = 0.5*(xc+xp0)+x0;
+        
+        xpp[0] = fmodf( xc[0] + x0[0] + box_, box_ );
+        xpp[1] = fmodf( xc[1] + x0[1] + box_, box_ );
     }
     
     
@@ -98,6 +142,7 @@ protected:
     
     void deploy_tet3pm( void );
     void deploy_stdpm( void );
+    void deploy_tcm( void );
     
 public:
     

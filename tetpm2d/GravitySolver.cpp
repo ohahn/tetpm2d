@@ -90,6 +90,59 @@ void gravity_solver::deploy_stdpm()
     }
 }
 
+void gravity_solver::deploy_tcm()
+{
+    unsigned nn2p = n_*(n_+2), nn2 = n_*n_, np=n_+2;
+    unsigned npart = nres*nres;
+    const int vert[4][2] = {{0,0},{1,0},{0,1},{1,1}};
+    const int conn[2][3] = {{0,1,2},{1,3,2}};
+    
+    float gfac = (float)n_ / box_;
+    int             slab_x, slab_y;
+	int             slab_xx, slab_yy;
+    float dx,dy;
+    
+    float pweight = 1.0f/2.0f * (float)n_*(float)n_/(nres*nres);//(float)nres*(float)nres/(n_*n_);
+    
+    for( unsigned i=0; i<npart; ++i )
+    {
+        int iy,ix;
+        iy = i%nres;
+        ix = (i-iy)/nres;
+        
+        static int      square_vertices[4];
+        for (int k = 0; k < 4; ++k)
+            square_vertices[k] = ((ix + vert[k][0]) % nres) * nres + ((iy + vert[k][1]) % nres);
+        
+        for (unsigned j = 0; j < 2; ++j) {
+            static float    xc[2];
+            static int      vertids[3];
+            
+            for (int k = 0; k < 3; ++k)
+                vertids[k] = square_vertices[conn[j][k]];
+            
+            get_triangle_centroid( vertids, xc );
+            
+            slab_x = gfac * xc[0];
+            dx = gfac * xc[0] - slab_x;
+            slab_x = (slab_x+n_)%n_;
+            slab_xx = (slab_x+1+n_)%n_;
+            
+            
+            slab_y = gfac * xc[1];
+            dy = gfac * xc[1] - slab_y;
+            slab_y = (slab_y+n_)%n_;
+            slab_yy = (slab_y+1+n_)%n_;
+            
+            data[slab_x * np + slab_y ]   += pweight * (1.0f - dx) * (1.0f - dy);
+            data[slab_xx * np + slab_y ]  += pweight * dx * (1.0f - dy);
+            data[slab_x * np + slab_yy ]  += pweight * (1.0f - dx) * dy;
+            data[slab_xx * np + slab_yy ] += pweight * dx * dy;
+
+        }
+    }
+}
+
 void gravity_solver::deploy_tet3pm()
 {
     unsigned nn2p = n_*(n_+2), nn2 = n_*n_, np=n_+2;
@@ -155,7 +208,7 @@ void gravity_solver::cic_deploy( int mass_deploy_mode )
     switch( mass_deploy_mode ) {
         case 0: deploy_stdpm();
             break;
-        case 1: deploy_tet3pm();
+        case 1: deploy_tcm();
             break;
         case 2: deploy_tet3pm();
             break;
