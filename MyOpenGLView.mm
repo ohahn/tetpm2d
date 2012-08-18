@@ -24,6 +24,8 @@ int changed_particle_number = 0;
 int render_mode = 0;
 int mass_deploy_mode = 0;
 
+int sim_type = 1;
+
 int nres = 128;
 int new_nres = nres;
 
@@ -71,8 +73,10 @@ void ripple_wave( void )
             
             //... perturbation
             float
-            qx = ((float)i+0.5)/nres,
-            qy = ((float)j+0.5)/nres;
+            //qx = ((float)i+0.5)/nres,
+            //qy = ((float)j+0.5)/nres;
+            qx = ((float)i)/nres,
+            qy = ((float)j)/nres;
             
             double vy = Aini/(twopi*kp)*sin(twopi*kp*qy + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qx));
             double vx = -Aini/(twopi*ka)*epsilon_a*sin(twopi*kp*qy + epsilon_a*(kp*kp)/(ka*ka)*cos(twopi*ka*qx))*sin(twopi*ka*qx);
@@ -96,14 +100,14 @@ void plane_wave( void )
         for( int j=0; j<nres; ++j )
         {
             unsigned id = i*nres+j;
-            P[id].x = (float)j * boxlength/(float)nres;
-            P[id].y = (float)i * boxlength/(float)nres;
+            P[id].x = (float)i * boxlength/(float)nres;
+            P[id].y = (float)j * boxlength/(float)nres;
             
             P[id].vx = 0.0f;
             P[id].vy = 0.0f;
             
-            P[id].x += astart * waveamp * sin( 2.0*M_PI *((float)j/(float)nres) );
-            P[id].vx += astart * waveamp * vfact * sin( 2.0*M_PI *((float)j/(float)nres) );
+            P[id].x += astart * waveamp * sin( 2.0*M_PI *((float)i/(float)nres) );
+            P[id].vx += astart * waveamp * vfact * sin( 2.0*M_PI *((float)i/(float)nres) );
             
             P[id].acc[0] = 0.0f;
             P[id].acc[1] = 0.0f;
@@ -116,8 +120,26 @@ void plane_wave( void )
 
 void init_particles()
 {
+    //int sim_type = 1;
+    
+    switch( sim_type )
+    {
+        case 0:     plane_wave();
+            break;
+            
+        case 1:     ripple_wave();
+            break;
+            
+        case 2:     cosmo_set_parameters( 1.0/astart-1.0, 0.276, 0.045, 0.724, 0.961, 0.811, 0.71 );
+                    cosmo_init_particles( 123456 );
+            break;
+    }
+    
     //plane_wave();
-    ripple_wave();
+    //ripple_wave();
+    
+    //cosmo_set_parameters( 1.0/astart-1.0, 0.276, 0.045, 0.724, 0.961, 0.811, 0.71 );
+    //cosmo_init_particles( 123456 );
 }
 
 /**
@@ -409,16 +431,17 @@ void drawAnObject( int rendermode )
         
     }else{
     
-        glBegin(GL_TRIANGLES);
+        glBegin(GL_POINTS);
         {
             for( unsigned i=0; i<npar; ++i )
             {
-                glColor4f(0.8,0.8,0.8,0.2);
+                glColor4f(0.8,0.8,0.8,0.1f);
                 glBlendFunc(GL_ONE,GL_ONE);
                 
-                glVertex3f( B2S(P[i].x)-0.002, B2S(P[i].y), 0.0f );
-                glVertex3f( B2S(P[i].x)+0.002, B2S(P[i].y), 0.0f );
-                glVertex3f( B2S(P[i].x), B2S(P[i].y)+0.004, 0.0f );
+                //glVertex3f( B2S(P[i].x)-0.003, B2S(P[i].y), 0.0f );
+                //glVertex3f( B2S(P[i].x)+0.003, B2S(P[i].y), 0.0f );
+                //glVertex3f( B2S(P[i].x), B2S(P[i].y)+0.006, 0.0f );
+                glVertex3f( B2S(P[i].x), B2S(P[i].y), 0.0f );
                 
             }
             

@@ -21,16 +21,20 @@ extern double cubearg;
 extern double pow4arg;
 #define POW4(a) ((pow4arg=(a)) == 0.0 ? 0.0 : pow4arg*pow4arg*pow4arg*pow4arg)
 
-const double
-g_H0      = 70.3,       // Hubble constant
-g_Omega_b = 0.045,      // baryon content
-g_Omega_m = 0.25,//0.276,       // matter content
-g_Omega_L = 0.75,//0.724,       // dark energy content
-g_sigma_8 = 0.8,//0.811,        // spectrum normalization
-g_nspect  = 1.0,//0.961,        // spectral index
-g_deltac  = 1.686,      // critical density for spherical collapse
-g_G       = 43.0117902, // gravitational constant in Mpc km^2/s^2 1.0e+10Msun
-g_rhoc    = 3.0*10000.0/8.0/M_PI/g_G; // critical density
+extern double
+g_H0,       // Hubble constant
+g_Omega_b,      // baryon content
+g_Omega_m,//0.276,       // matter content
+g_Omega_L,//0.724,       // dark energy content
+g_sigma_8,//0.811,        // spectrum normalization
+g_nspect,//0.961,        // spectral index
+g_zstart;
+
+
+extern const double
+g_deltac,      // critical density for spherical collapse
+g_G, // gravitational constant in Mpc km^2/s^2 1.0e+10Msun
+g_rhoc; // critical density
 
 
 

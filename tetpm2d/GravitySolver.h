@@ -14,7 +14,6 @@
 #include "fftw3.h"
 #include "Global.h"
 
-typedef float fftwf_real;
 
 class gravity_solver
 {

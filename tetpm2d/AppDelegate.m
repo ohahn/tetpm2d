@@ -17,8 +17,11 @@ extern int new_PMres;
 extern int changed_PMres;
 extern int render_mode;
 extern int mass_deploy_mode;
+extern int sim_type;
 
 @implementation AppDelegate
+
+@synthesize window = _window;
 
 - (void)dealloc
 {
@@ -86,6 +89,32 @@ extern int mass_deploy_mode;
         default:
             break;
     }
+}
+
+
+- (IBAction) showTheSheet:(id)sender {
+    
+    [NSApp beginSheet:SimTypeSheet
+       modalForWindow:(NSWindow *)_window
+        modalDelegate:self
+       didEndSelector:nil
+          contextInfo:nil];
+    
+}
+
+-(IBAction)endTheSheet:(id)sender {
+    
+    NSInteger tag = [[simtype selectedItem] tag];
+    
+    sim_type = (int)tag;
+    restart_sim = 1;
+    
+    fprintf(stderr,"set simtype to %d\n",tag);
+    
+    
+    [NSApp endSheet:SimTypeSheet];
+    [SimTypeSheet orderOut:sender];
+    
 }
 
 @end

@@ -21,8 +21,8 @@
     IBOutlet NSTextField *zcurrlabel;
     IBOutlet NSTextField *numpart;
     IBOutlet NSTextField *numcell;
-    
-    
+    IBOutlet NSPanel *SimTypeSheet;
+    IBOutlet NSPopUpButtonCell *simtype;
     
 }
 
@@ -35,5 +35,7 @@
 - (IBAction)change_numcell:(id)sender;
 - (IBAction)toggle_rendermode:(id)sender;
 - (IBAction)toggle_massdeploymode:(id)sender;
+- (IBAction)showTheSheet:(id)sender;
+- (IBAction)endTheSheet:(id)sender;
 
 @end

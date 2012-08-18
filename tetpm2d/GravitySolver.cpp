@@ -147,7 +147,7 @@ void gravity_solver::deploy_tet3pm()
 {
     unsigned nn2p = n_*(n_+2), nn2 = n_*n_, np=n_+2;
     unsigned nres2 = nres*nres;
-    const int vert[4][2] = {{0,0},{1,0},{0,1},{1,1}};
+    const int vert[4][2] = {{0,0},{0,1},{1,0},{1,1}};
     const int conn[2][3] = {{0,1,2},{1,3,2}};
     
     float gfac = (float)n_ / box_;

@@ -22,5 +22,7 @@ extern float boxlength;
 
 extern int is_running;
 
+typedef float fftwf_real;
+
 
 #endif
