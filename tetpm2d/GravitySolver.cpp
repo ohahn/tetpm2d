@@ -9,7 +9,7 @@
 #include "GravitySolver.h"
 
 #include <fftw3.h>
-#include <omp.h>
+//#include <omp.h>
 
 #include "Global.h"
 

@@ -253,21 +253,42 @@ void cosmo_init_particles( unsigned seed )
     
     float fftnorm = 1.0f / (float)nres * (2.0f*M_PI/boxlength);
     
-     
+    for( int i=0; i<nres; ++i )
+        for( int j=0; j<nres; ++j )
+        {
+            int idx = i*(nres+2)+j;
+            data[idx] = gsl_ran_ugaussian_ratio_method( RNG ) / nres;
+        }
+    fftwf_execute( plan );
+    
+    /////////////////////////////////
+    
+    
     for( int i=0; i<nres; ++i )
         for( int j=0; j<nresp; ++j )
         {
-            float kx = i>nresp? (float)(i-nres)*kfac : (float)i*kfac;
+            float kx = i>=nresp? (float)(i-nres)*kfac : (float)i*kfac;
             float ky = (float)j*kfac;
             
-            float kk = sqrtf(kx*kx+ky+ky);
+            float kk = sqrtf(kx*kx+ky*ky);
             
             int idx = i*nresp+j;
             
-            float ampk = cosmo_get_amp_k( kk );
+            float ampk = cosmo_get_amp_k( kk ); //*sqrtf(kk);
             
-            cdata[idx][0] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
-            cdata[idx][1] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
+            if( kk >= nresp*kfac )
+                ampk = 0.0;
+            
+            //cdata[idx][0] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
+            //cdata[idx][1] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
+            
+            cdata[idx][0] *= ampk * fftnorm;
+            cdata[idx][1] *= ampk * fftnorm;
+            
+            
+            cdata2[idx][0] = cdata[idx][0];
+            cdata2[idx][1] = cdata[idx][1];
+            
             
             /*cdata[idx][0] *= ampk * fftnorm * fftnorm;
             cdata[idx][1] *= ampk * fftnorm * fftnorm;*/
@@ -275,6 +296,10 @@ void cosmo_init_particles( unsigned seed )
             
             
         }
+    cdata2[0][0] = 0.0f;
+    cdata2[0][1] = 0.0f;
+      
+    
     // insert code to make random numbers independent of resolution (have rectangle outliens)
     
     
@@ -286,15 +311,15 @@ void cosmo_init_particles( unsigned seed )
     for( int i=0; i<nres; ++i )
         for( int j=0; j<nresp; ++j )
         {
-            float kx = i>nresp? (float)(i-nres)*kfac : (float)i*kfac;
+            float kx = i>=nresp? (float)(i-nres)*kfac : (float)i*kfac;
             float ky = (float)j*kfac;
             
-            float kk = sqrtf(kx*kx+ky+ky);
+            float kk = sqrtf(kx*kx+ky*ky);
             
-            int idx = i*nresp+j;
+            int idx = i*nresp+j; // (a+ib) * ik = iak -bk
             
-            cdata2[idx][0] = -kx/kk * cdata[idx][1];
-            cdata2[idx][1] = -kx/kk * cdata[idx][0];
+            cdata2[idx][0] = kx/kk/kk * cdata[idx][1];
+            cdata2[idx][1] = -kx/kk/kk * cdata[idx][0];
         }
     
     cdata2[0][0] = 0.0f;
@@ -310,6 +335,7 @@ void cosmo_init_particles( unsigned seed )
             P[ii].x = (float)i*dx + data2[idx];
             P[ii].vx = data2[idx] * vfact;
             P[ii].id = ii;
+            P[ii].acc[0] = 0.0f;
             
         }
     
@@ -318,15 +344,17 @@ void cosmo_init_particles( unsigned seed )
     for( int i=0; i<nres; ++i )
         for( int j=0; j<nresp; ++j )
         {
-            float kx = i>nresp? (float)(i-nres)*kfac : (float)i*kfac;
+            float kx = i>=nresp? (float)(i-nres)*kfac : (float)i*kfac;
             float ky = (float)j*kfac;
             
-            float kk = sqrtf(kx*kx+ky+ky);
+            float kk = sqrtf(kx*kx+ky*ky);
             
             int idx = i*nresp+j;
             
-            cdata2[idx][0] = -ky/kk * cdata[idx][1];
-            cdata2[idx][1] = -ky/kk * cdata[idx][0];
+            std::cerr << "ky = " << ky << " ,  kx = " << kx << std::endl;
+            
+            cdata2[idx][0] = ky/kk/kk * cdata[idx][1];
+            cdata2[idx][1] = -ky/kk/kk * cdata[idx][0];
         }
     
     cdata2[0][0] = 0.0f;
@@ -341,12 +369,13 @@ void cosmo_init_particles( unsigned seed )
             int ii = i*nres+j;
             P[ii].y = (float)j*dx + data2[idx];
             P[ii].vy = data2[idx] * vfact;
-            
+            P[ii].acc[1] = 0.0f;
         }
     
     /////////////////////////////////
     
     delete[] data;
+    delete[] data2;
     fftwf_destroy_plan(plan);
     fftwf_destroy_plan(iplan);
     fftwf_destroy_plan(plan2);

@@ -24,7 +24,7 @@ int changed_particle_number = 0;
 int render_mode = 0;
 int mass_deploy_mode = 0;
 
-int sim_type = 1;
+int sim_type = 2;
 
 int nres = 128;
 int new_nres = nres;
@@ -33,7 +33,7 @@ int PMres = 128;
 int new_PMres = PMres;
 int changed_PMres = 0;
 
-float boxlength = 10.0;
+float boxlength = 100.0;
 float aexp;
 float astart = 1.0/101.0;
 
@@ -131,7 +131,7 @@ void init_particles()
             break;
             
         case 2:     cosmo_set_parameters( 1.0/astart-1.0, 0.276, 0.045, 0.724, 0.961, 0.811, 0.71 );
-                    cosmo_init_particles( 123456 );
+                    cosmo_init_particles( 1456 );
             break;
     }
     
