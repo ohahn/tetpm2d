@@ -279,25 +279,11 @@ void cosmo_init_particles( unsigned seed )
             if( kk >= nresp*kfac )
                 ampk = 0.0;
             
-            //cdata[idx][0] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
-            //cdata[idx][1] = gsl_ran_ugaussian_ratio_method( RNG ) * ampk * fftnorm;
-            
             cdata[idx][0] *= ampk * fftnorm;
             cdata[idx][1] *= ampk * fftnorm;
             
             
-            cdata2[idx][0] = cdata[idx][0];
-            cdata2[idx][1] = cdata[idx][1];
-            
-            
-            /*cdata[idx][0] *= ampk * fftnorm * fftnorm;
-            cdata[idx][1] *= ampk * fftnorm * fftnorm;*/
-            
-            
-            
         }
-    cdata2[0][0] = 0.0f;
-    cdata2[0][1] = 0.0f;
       
     
     // insert code to make random numbers independent of resolution (have rectangle outliens)
@@ -350,8 +336,6 @@ void cosmo_init_particles( unsigned seed )
             float kk = sqrtf(kx*kx+ky*ky);
             
             int idx = i*nresp+j;
-            
-            std::cerr << "ky = " << ky << " ,  kx = " << kx << std::endl;
             
             cdata2[idx][0] = ky/kk/kk * cdata[idx][1];
             cdata2[idx][1] = -ky/kk/kk * cdata[idx][0];
